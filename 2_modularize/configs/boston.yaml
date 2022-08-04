@@ -1,0 +1,11 @@
+data:
+  path: data/boston.tsv
+  kfold_splits: 2
+model:
+  model_type: linear_regression
+  model_args:
+    fit_intercept: True
+metrics:
+  - r_squared
+  - mean_error
+  - l2
