@@ -3,6 +3,7 @@ from collections import defaultdict
 import random
 import string
 import os
+import shutil
 import yaml
 
 import numpy as np
@@ -21,6 +22,8 @@ def make_experiment_folder(base_path, yaml_args):
 	os.makedirs(experiment_dir)
 	with open(os.path.join(experiment_dir, 'config.yaml'), 'w') as f:
 		f.write(yaml.dump(yaml_args))
+	shutil.copytree('.', os.path.join(experiment_dir, 'code'))
+	print(f"Logging to: {experiment_dir}")
 	return experiment_dir
 	
 def load_dataset(args):
@@ -66,10 +69,7 @@ def train(args, dataset, model, metrics):
 	return metrics_to_results
 			
 def log(args, results):
-	print("Results are", results)
 	for result_name, result_val in results.items():
-		print("Experiment path is", args['experiment_path'])
-		print("Result name is", result_name)
 		with open(os.path.join(args['experiment_path'], result_name), 'w') as f:
 			f.write(f'{np.mean(result_val):.5f}')
 	
